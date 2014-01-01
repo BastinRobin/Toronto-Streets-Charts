@@ -10,8 +10,8 @@ var treemap = function(data, conf) {
 
   var colorScale = d3.scale.linear()
     .clamp(true)
-    .domain([amount[0], amount[1]])
-    .range(['#c51b8a', '#fa9fb5']);
+    .domain([amount[0],(amount[0] + amount[1]) / 2 ,amount[1]])
+    .range(['#756bb1', '#bcbddc', '#efedf5']);
 
   if(conf['body']) {
     //Data nesting
@@ -63,7 +63,7 @@ var treemap = function(data, conf) {
             .attr("width", function (d) { return d.dx; })
             .attr("height", function (d) { return d.dy; })
             .attr('data-title', function (d, i) { 
-              return d.key+' ,'+d.value+' ,'+'Infraction ' +data[i]['time_of_infraction']+'Times'; })
+              return d.key+','+d.value+','+'Infraction '+data[i]['time_of_infraction']+' Time'; })
             .style("fill", function(d) { return colorScale(d.value); });
 
       //Append text
@@ -72,7 +72,7 @@ var treemap = function(data, conf) {
           .attr("y", function(d) { return d.dy / 2; })
           .attr("dy", ".35em")  
           .attr("text-anchor", "middle")
-          .style('font-size', function(d) { return d.dx / 10 + "px"; })
+          .style('font-size', function(d) { return d.dx / 5 + "px"; })
          .text(function(d) { return d.key; }) 
 
       $('[data-title]').tooltip({
