@@ -6,7 +6,7 @@ var treemap = function(data, conf) {
 
   //Color scale define
   // var colorScale = d3.scale.category20c();
- var amount = d3.extent(_.pluck(data, conf['size']));
+ var amount = d3.extent(_.pluck(data, conf['color']));
 
   var colorScale = d3.scale.linear()
     .clamp(true)
@@ -63,6 +63,7 @@ var treemap = function(data, conf) {
             .attr("width", function (d) { return d.dx; })
             .attr("height", function (d) { return d.dy; })
             .attr('data-title', function (d, i) { 
+              console.log(d);
               return d.key+','+d.value+','+'Infraction '+data[i]['time_of_infraction']+' Time'; })
             .style("fill", function(d) { return colorScale(d.value); });
 
@@ -72,7 +73,7 @@ var treemap = function(data, conf) {
           .attr("y", function(d) { return d.dy / 2; })
           .attr("dy", ".35em")  
           .attr("text-anchor", "middle")
-          .style('font-size', function(d) { return d.dx / 5 + "px"; })
+          .style('font-size', function(d) { return d.dx / 10 + "px"; })
          .text(function(d) { return d.key; }) 
 
       $('[data-title]').tooltip({
@@ -86,7 +87,7 @@ var treemap = function(data, conf) {
 var secondLevel = function() {
   d3.selectAll('.chart svg').remove();
   var data = JSON.parse(localStorage.data);
-  treemap(data, {head: 'location1', body: 'location2', size: 'set_fine_amount'});
+  treemap(data, {head: 'location1', body: 'location2', size: 'set_fine_amount', color: 'time_of_infraction'});
 }
 
 
@@ -100,7 +101,7 @@ $(document).ready(function() {
 
   });
 
-  //First Treemap
+  //Search Treemap
     var lastsearch = '';
     var $box = {};
     function add_search(search, chart) {
