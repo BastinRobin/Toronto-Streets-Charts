@@ -92,7 +92,7 @@ var secondLevel = function() {
 }
 
 
-
+// One page ready
 $(document).ready(function() {
   //Get the data via csv
   d3.csv('Parking_data.csv', function(data) {
