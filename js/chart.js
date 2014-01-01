@@ -10,8 +10,8 @@ var treemap = function(data, conf) {
 
   var colorScale = d3.scale.linear()
     .clamp(true)
-    .domain([amount[0],(amount[0] + amount[1]) / 2 ,amount[1]])
-    .range(['#D73027', '#FFFFBF', '#1A9850']);
+    .domain([amount[0], amount[1]])
+    .range(['#c51b8a', '#fa9fb5']);
 
   if(conf['body']) {
     //Data nesting
@@ -62,7 +62,8 @@ var treemap = function(data, conf) {
       cell.select("rect") 
             .attr("width", function (d) { return d.dx; })
             .attr("height", function (d) { return d.dy; })
-            .attr('data-title', function (d) { return d.key+','+d.value; })
+            .attr('data-title', function (d, i) { 
+              return d.key+' ,'+d.value+' ,'+'Infraction ' +data[i]['time_of_infraction']+'Times'; })
             .style("fill", function(d) { return colorScale(d.value); });
 
       //Append text
@@ -71,12 +72,13 @@ var treemap = function(data, conf) {
           .attr("y", function(d) { return d.dy / 2; })
           .attr("dy", ".35em")  
           .attr("text-anchor", "middle")
-          .style('font-size', function(d) { return d.dx / 5 + "px"; })
+          .style('font-size', function(d) { return d.dx / 10 + "px"; })
          .text(function(d) { return d.key; }) 
 
       $('[data-title]').tooltip({
               container: 'body',
-              html: true
+              html: true,
+              placement: 'right'
           });
 }
 
@@ -84,7 +86,7 @@ var treemap = function(data, conf) {
 var secondLevel = function() {
   d3.selectAll('.chart svg').remove();
   var data = JSON.parse(localStorage.data);
-  treemap(data, {head: 'location1', body: 'tag_number_masked', size: 'set_fine_amount'});
+  treemap(data, {head: 'location1', body: 'location2', size: 'set_fine_amount'});
 }
 
 
