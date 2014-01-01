@@ -8,6 +8,7 @@ var treemap = function(data, conf) {
   // var colorScale = d3.scale.category20c();
  var amount = d3.extent(_.pluck(data, conf['color']));
 
+ //Custom color scale
   var colorScale = d3.scale.linear()
     .clamp(true)
     .domain([amount[0],(amount[0] + amount[1]) / 2 ,amount[1]])
