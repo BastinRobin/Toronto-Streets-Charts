@@ -65,7 +65,7 @@ var treemap = function(data, conf) {
         .attr("width", function (d) { return d.dx; })
         .attr("height", function (d) { return d.dy; })
         .attr('data-title', function (d, i) { 
-          return d.key+','+d.value+','+'Infraction '+data[i]['time_of_infraction']+' Time'; })
+          return d.key+','+d.value+','+'Infraction '+data[i]['time_of_infraction']+' Time.  Infraction Desc: '+data[i]['infraction_description']; })
         .style("fill", function(d, i) { return colorScale(data[i][conf['color']]); });
 
   //Append text
@@ -87,8 +87,7 @@ var treemap = function(data, conf) {
 // Second Level Treemap
 var secondLevel = function() {
   d3.selectAll('.chart svg').remove();
-  var data = JSON.parse(localStorage.data);
-  treemap(data, {head: 'location1', body: 'location2', size: 'set_fine_amount', color: 'time_of_infraction'});
+  treemap(window.data, {head: 'location1', body: 'location2', size: 'set_fine_amount', color: 'time_of_infraction'});
 }
 
 
@@ -96,9 +95,12 @@ var secondLevel = function() {
 $(document).ready(function() {
   //Get the data via csv
   d3.csv('Parking_data.csv', function(data) {
+    window.data = data; 
     // plot treemap
-    localStorage.setItem('data', JSON.stringify(data));
-    treemap(data, {head: 'location1', size: 'set_fine_amount'});
+    // localStorage.setItem('data', JSON.stringify(data));
+    // treemap(data, {head: 'location1', size: 'set_fine_amount'});
+       treemap(window.data, {head: 'location1', body: 'location2', size: 'set_fine_amount', color: 'time_of_infraction'});
+
 
     //Get the column headers
     var columns = d3.keys(data[0]);
